@@ -6,7 +6,7 @@ const tmi = require('tmi.js');
 const opts = {
   identity: {
     username: 'bitforgebot',
-    password: '6jajkl76y6mjc6w3pmw5p7d3ymshp9'
+    password: 'ycm6q0gvukljpd4xth8wwow24qbctx'
   },
   channels: [
     'xxbitforgexx'
@@ -23,12 +23,17 @@ client.on('connected', onConnectedHandler);
 // Connect to Twitch
 client.connect();
 
+const badWords = ['neger', 'pikk', 'faen'];
+const userBadWords = {};
+
+
+// twitch token -u -s 'chat:read chat:edit channel:read:polls channel:manage:polls'
 
 async function getOAuthToken() {
   return axios.post('https://id.twitch.tv/oauth2/token', null, {
       params: {
-        client_id: 'pgst6bpckqhgg28f50thunldwiaxdr', // Your client ID
-        client_secret: 'kfvjmqgt2940bvmzj3ljpaz9v5d23e', // Your client secret
+        client_id: 'pgst6bpckqhgg28f50thunldwiaxdr',
+        client_secret: '7q013xdtkaubfluehzu6p2rfs8ycwr', 
         grant_type: 'client_credentials',
         scope: 'channel:manage:polls'
       }
@@ -51,7 +56,6 @@ async function onMessageHandler (target: string, context: any, msg: string, self
   const commandName = msg.trim();
 
   if (commandName === '!poll') {
-
     const oauthToken = await getOAuthToken();
     console.log('OAuth token:', oauthToken);
 
@@ -68,7 +72,7 @@ async function onMessageHandler (target: string, context: any, msg: string, self
         // Creating poll
         const url = "https://api.twitch.tv/helix/polls";
         const data = {
-          "broadcaster_id": broadcasterId, // Your broadcaster ID
+          "broadcaster_id": broadcasterId,
           "title": "Streaming next Tuesday. Which time works best for you?",
           "choices": [
               {"title": "9AM"},
@@ -80,14 +84,11 @@ async function onMessageHandler (target: string, context: any, msg: string, self
           "duration": 300
         };
 
-        const oauthToken2 = await getOAuthToken();
-        console.log('OAuth token:', oauthToken2);
-
         fetch(url, {
           method: 'POST',
           headers: {
-            "Authorization": "Bearer " + oauthToken2,
-            "Client-ID": "pgst6bpckqhgg28f50thunldwiaxdr", // Your client ID
+            "Authorization": "Bearer ycm6q0gvukljpd4xth8wwow24qbctx",
+            "Client-ID": "pgst6bpckqhgg28f50thunldwiaxdr",
             "Content-Type": "application/json"
           },
           body: JSON.stringify(data)
@@ -101,10 +102,53 @@ async function onMessageHandler (target: string, context: any, msg: string, self
           console.error(error);
       });
       
+    console.log(`* Executed ${commandName} command`);
+
+  } else if (commandName === '!hello') {
+    client.say(target, `@${context.username}, Fuck you!`);
+    console.log(`* Executed ${commandName} command`);
+
+  } else if (commandName.includes('!badwords')) {
+    const split_command = commandName.split('@');
+    const username = split_command[1];
+
+    console.log(username)
+
+    let bw1 = 0;
+    let bw2 = 0;
+    let bw3 = 0;
+
+    if (userBadWords[username.toLowerCase()]) {
+      for (const word of userBadWords[username.toLowerCase()]) {
+        if (word == "neger") {
+          bw1++;
+        } else if (word == "pikk") {
+          bw2++;
+        } else if (word == "faen") {
+          bw3++;
+        }
+      }
+
+      client.say(target, `@${context.username} har sagt: Neger ${bw1} ganger, Pikk ${bw2} ganger, Faen ${bw3} ganger.`);
+    } else {
+      client.say(target, `@${context.username} har ikke sagt noen stygge ord :)`)
+    }
 
     console.log(`* Executed ${commandName} command`);
   } else {
     console.log(`* Unknown command ${commandName}`);
+  }
+
+  for (const word of badWords) {
+    if (commandName.includes(word)) {
+      if (!userBadWords[context.username]) {
+        userBadWords[context.username] = [];
+      }
+
+      userBadWords[context.username].push(word);
+
+      console.log(userBadWords);
+    }  
   }
 }
 
