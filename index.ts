@@ -104,11 +104,11 @@ async function onMessageHandler (target: string, context: any, msg: string, self
       
     console.log(`* Executed ${commandName} command`);
 
-  } else if (commandName === '!hello') {
-    client.say(target, `@${context.username}, Fuck you!`);
+  } else if (commandName === '!hei') {
+    client.say(target, `@${context.username}, Sug en feit kuk!`);
     console.log(`* Executed ${commandName} command`);
 
-  } else if (commandName.includes('!badwords')) {
+  } else if (commandName.includes('!styggeord')) {
     const split_command = commandName.split('@');
     const username = split_command[1];
 
@@ -135,7 +135,17 @@ async function onMessageHandler (target: string, context: any, msg: string, self
     }
 
     console.log(`* Executed ${commandName} command`);
-  } else {
+  } else if (commandName === '!hjelp') {
+    client.say(target, `@${context.username}, her er en liste over tilgjengelige kommandoer: 
+    1. !poll - Start en avstemning.
+    2. !hei - Sier hei tilbake til deg.
+    3. !styggeord @brukernavn - Sjekker hvor mange ganger den personen har brukt stygge ord.
+    4. !hjelp - Viser denne hjelpemeldingen.`);
+    console.log(`* Executed ${commandName} command`);
+  }
+  
+  
+  else {
     console.log(`* Unknown command ${commandName}`);
   }
 
