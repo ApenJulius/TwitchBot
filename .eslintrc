@@ -44,15 +44,6 @@
       "eqeqeq": "warn",
       "default-case": "error",
       "max-classes-per-file": "error",
-      "no-console": [
-        "error",
-        {
-          "allow": [
-            "warn",
-            "error"
-          ]
-        }
-      ],
       "object-shorthand": "error",
       "eol-last": ["error", "always"],
       "prefer-const": [
