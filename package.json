@@ -16,9 +16,17 @@
     "nodemon": "^3.0.3",
     "requests": "^0.3.0",
     "tmi.js": "^1.8.5",
-    "ts-node": "^10.9.2"
+    "ts-node": "^10.9.2",
+    "axios": "^1.6.7",
+    "dotenv": "^16.4.5",
+    "tmi": "^2.0.0",
+    "tmi.js": "^1.8.5"
   },
   "devDependencies": {
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "@types/node": "^20.11.19",
+    "@typescript-eslint/eslint-plugin": "^7.0.2",
+    "@typescript-eslint/parser": "^7.0.2",
+    "eslint": "^8.56.0"
   }
 }
