@@ -1,15 +1,23 @@
 const axios = require('axios');
 const tmi = require('tmi.js');
 
+const env = require('dotenv').config();
+
+
+console.log(env.parsed.BOT_USERNAME);
+console.log(env.parsed.BOT_OAUTH);
+console.log(env.parsed.CHANNEL_NAME);
+console.log(env.parsed.BOT_ID);
+console.log(env.parsed.BOT_SECRET);
 
 // Define configuration options
 const opts = {
   identity: {
-    username: 'bitforgebot',
-    password: 'ycm6q0gvukljpd4xth8wwow24qbctx'
+    username: env.parsed.BOT_USERNAME,
+    password: env.parsed.BOT_OAUTH
   },
   channels: [
-    'xxbitforgexx'
+    env.parsed.CHANNEL_NAME
   ]
 };
 
@@ -32,8 +40,8 @@ const userBadWords = {};
 async function getOAuthToken() {
   return axios.post('https://id.twitch.tv/oauth2/token', null, {
       params: {
-        client_id: 'pgst6bpckqhgg28f50thunldwiaxdr',
-        client_secret: '7q013xdtkaubfluehzu6p2rfs8ycwr', 
+        client_id: env.parsed.BOT_ID,
+        client_secret: env.parsed.BOT_SECRET, 
         grant_type: 'client_credentials',
         scope: 'channel:manage:polls'
       }
@@ -60,8 +68,8 @@ async function onMessageHandler (target: string, context: any, msg: string, self
     console.log('OAuth token:', oauthToken);
 
     const headers2 = {
-      'client-id': 'pgst6bpckqhgg28f50thunldwiaxdr',
-      'Authorization': 'Bearer ' + oauthToken,
+      'client-id': env.parsed.BOT_ID,
+      'Authorization': 'Bearer ' + env.parsed.BOT_OAUTH,
     };
     
     axios.get('https://api.twitch.tv/helix/users?login=xxbitforgexx', {headers: headers2 })
@@ -87,8 +95,8 @@ async function onMessageHandler (target: string, context: any, msg: string, self
         fetch(url, {
           method: 'POST',
           headers: {
-            "Authorization": "Bearer ycm6q0gvukljpd4xth8wwow24qbctx",
-            "Client-ID": "pgst6bpckqhgg28f50thunldwiaxdr",
+            "Authorization": "Bearer " + env.parsed.BOT_OAUTH,
+            "Client-ID": env.parsed.BOT_ID,
             "Content-Type": "application/json"
           },
           body: JSON.stringify(data)
