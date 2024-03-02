@@ -31,7 +31,7 @@ client.on('connected', onConnectedHandler);
 // Connect to Twitch
 client.connect();
 
-const badWords = ['neger', 'pikk', 'faen'];
+const badWords = ['placeholder1', 'placeholder2', 'placeholder3'];
 const userBadWords = {};
 
 
@@ -128,16 +128,16 @@ async function onMessageHandler (target: string, context: any, msg: string, self
 
     if (userBadWords[username.toLowerCase()]) {
       for (const word of userBadWords[username.toLowerCase()]) {
-        if (word == "neger") {
+        if (word == "placeholder1") {
           bw1++;
-        } else if (word == "pikk") {
+        } else if (word == "placeholder2") {
           bw2++;
-        } else if (word == "faen") {
+        } else if (word == "placeholder3") {
           bw3++;
         }
       }
 
-      client.say(target, `@${context.username} har sagt: Neger ${bw1} ganger, Pikk ${bw2} ganger, Faen ${bw3} ganger.`);
+      client.say(target, `@${context.username} har sagt: placeholder1 ${bw1} ganger, placeholder2 ${bw2} ganger, placeholder3 ${bw3} ganger.`);
     } else {
       client.say(target, `@${context.username} har ikke sagt noen stygge ord :)`)
     }
